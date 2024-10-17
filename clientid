@@ -1,0 +1,58 @@
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+local frame = Instance.new("Frame")
+local titleLabel = Instance.new("TextLabel")
+local clientIdLabel = Instance.new("TextLabel")
+local copyButton = Instance.new("TextButton")
+
+-- Set up ScreenGui
+screenGui.Name = "ClientIdGui"
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Set up Frame
+frame.Name = "MainFrame"
+frame.Size = UDim2.new(0.3, 0, 0.2, 0)  -- Smaller size
+frame.Position = UDim2.new(0.35, 0, 0.4, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Dark background
+frame.Parent = screenGui
+
+-- Set up Title Label
+titleLabel.Name = "TitleLabel"
+titleLabel.Size = UDim2.new(1, 0, 0.3, 0)  -- Full width, 30% height
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.Text = "NewID (Get ClientID)"
+titleLabel.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Dark red text
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextScaled = true  -- Scale text to fit
+titleLabel.Font = Enum.Font.SourceSansBold  -- Use a bold font
+titleLabel.Parent = frame
+
+-- Set up TextLabel for Client ID
+clientIdLabel.Name = "ClientIdLabel"
+clientIdLabel.Size = UDim2.new(1, 0, 0.5, 0)  -- Full width, 50% height
+clientIdLabel.Position = UDim2.new(0, 0, 0.3, 0)
+clientIdLabel.Text = "Your User ID is: " .. tostring(player.UserId)  -- Display User ID
+clientIdLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- White text
+clientIdLabel.BackgroundTransparency = 1
+clientIdLabel.Parent = frame
+
+-- Set up Copy Button
+copyButton.Name = "CopyButton"
+copyButton.Size = UDim2.new(0.8, 0, 0.2, 0)  -- 80% width, 20% height
+copyButton.Position = UDim2.new(0.1, 0, 0.8, 0)  -- Centered below the TextLabel
+copyButton.Text = "Copy Client ID"
+copyButton.BackgroundColor3 = Color3.fromRGB(100, 0, 0)  -- Dark red background
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- White text
+copyButton.Parent = frame
+
+-- Function to copy User ID to clipboard and close GUI
+local function copyToClipboard()
+    local userId = player.UserId  -- Get the User ID
+    setclipboard(tostring(userId))  -- Copy User ID to clipboard
+    copyButton.Text = "Copied!"  -- Update button text
+    wait(2)  -- Wait for 2 seconds
+    screenGui:Destroy()  -- Close the GUI by destroying it
+end
+
+-- Connect the copy button click event
+copyButton.MouseButton1Click:Connect(copyToClipboard)
